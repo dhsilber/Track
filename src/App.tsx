@@ -1,33 +1,66 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { Slider } from 'rsuite'
+import useLocalStorageState from 'use-local-storage-state'
+
+
+interface Track {
+  timestamp: number
+  painLevel: number
+}
+
+interface TrackSet {
+  tracked: Track[]
+}
+
+const defaultTrackData: TrackSet = {
+  tracked: [
+      { 
+        timestamp: 0,
+        painLevel: 0
+     },
+  ]
+}
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [painLevel, setPainLevel ] = useState(0)
+  const [getStorage, setStorage] = useLocalStorageState("track", {
+    defaultValue: defaultTrackData
+  })
+
+  function store() {
+    let data = getStorage
+    data.tracked.unshift( { 
+      timestamp: Date.now(),
+      painLevel: painLevel,
+     })
+    setStorage( data )
+  }
 
   return (
     <>
+      <h1>Track</h1>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div style={{ height: 300 }}>
+          <Slider
+            defaultValue={0}
+            min={1}
+            step={1}
+            max={10}
+            graduated
+            vertical
+            renderMark={mark => {
+              return <span>{mark}</span>;
+            }}
+            onChange = {(value: number) => setPainLevel(value)}
+          />
+        </div>
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => store()}>
+          Track
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }
