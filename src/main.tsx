@@ -9,6 +9,6 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <CustomProvider theme="dark">
       <App />
-+   </CustomProvider>
+    </CustomProvider>
   </StrictMode>,
 )

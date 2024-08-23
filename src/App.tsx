@@ -37,6 +37,21 @@ function App() {
     setStorage( data )
   }
 
+  function format(item: Track): string {
+    const date = new Date(item.timestamp)
+    return `${date.getUTCMonth()} ${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()} - Pain: ${item.painLevel}`
+  }
+
+  function allData(): string {
+    const all: string[] = []
+    getStorage.tracked.forEach(item => {
+      const line = format(item)
+      all.push(line)
+    })
+
+    return all.join('\n')
+  }
+
   return (
     <>
       <h1>Track</h1>
@@ -61,6 +76,14 @@ function App() {
           Track
         </button>
       </div>
+      
+      <textarea
+        rows={50} cols={77}
+        value={allData()}
+        style={{color: 'black'}}
+    >
+        {allData()}
+      </textarea>
     </>
   )
 }
