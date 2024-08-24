@@ -61,7 +61,8 @@ function App() {
 
   function format(item: Track): string {
     const date = new Date(item.timestamp)
-    const timestamp = `${date.getUTCMonth()} ${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}`
+    const month = date.toLocaleString('en-us', {month:'short'})
+    const timestamp = `${month} ${date.getDate()} ${date.getHours()}:${date.getMinutes()}`
     const rest = `Pain: ${item.painLevel} - ${item.side} ${item.part}`
     return `${timestamp} - ${rest}`
   }
