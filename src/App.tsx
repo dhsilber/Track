@@ -3,10 +3,26 @@ import './App.css'
 import { Slider } from 'rsuite'
 import useLocalStorageState from 'use-local-storage-state'
 
+const enum Side {
+  Unknown = "Unknown",
+  Left = "Left",
+  Right = "Right",
+  Both = "Both",
+  Only = "Only",
+}
+
+const enum Part {
+  Unknown = "Unknown",
+  Shoulder = "Shoulder",
+  Knee = "Knee",
+  Back = "Back",
+}
 
 interface Track {
   timestamp: number
   painLevel: number
+  side: Side
+  part: Part
 }
 
 interface TrackSet {
@@ -17,13 +33,17 @@ const defaultTrackData: TrackSet = {
   tracked: [
       { 
         timestamp: 0,
-        painLevel: 0
-     },
+        painLevel: 0,
+        side: Side.Unknown,
+        part: Part.Unknown,
+      },
   ]
 }
 
 function App() {
   const [painLevel, setPainLevel ] = useState(0)
+  const [side, setSide ] = useState<Side>(Side.Unknown)
+  const [part, setPart ] = useState<Part>(Part.Unknown)
   const [getStorage, setStorage] = useLocalStorageState("track", {
     defaultValue: defaultTrackData
   })
@@ -33,13 +53,17 @@ function App() {
     data.tracked.unshift( { 
       timestamp: Date.now(),
       painLevel: painLevel,
+      side: side,
+      part: part,
      })
     setStorage( data )
   }
 
   function format(item: Track): string {
     const date = new Date(item.timestamp)
-    return `${date.getUTCMonth()} ${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()} - Pain: ${item.painLevel}`
+    const timestamp = `${date.getUTCMonth()} ${date.getUTCDate()} ${date.getUTCHours()}:${date.getUTCMinutes()}`
+    const rest = `Pain: ${item.painLevel} - ${item.side} ${item.part}`
+    return `${timestamp} - ${rest}`
   }
 
   function allData(): string {
@@ -48,14 +72,13 @@ function App() {
       const line = format(item)
       all.push(line)
     })
-
     return all.join('\n')
   }
 
   return (
     <>
       <h1>Track</h1>
-      <div>
+      <div style={{}}>
         <div style={{ height: 300 }}>
           <Slider
             defaultValue={0}
@@ -71,6 +94,38 @@ function App() {
           />
         </div>
       </div>
+      {Part.Back !== part && <form>
+        <label>
+          <input type={'checkbox'} checked={Side.Left == side} onClick={()=>setSide(Side.Left === side ? Side.Unknown : Side.Left)}/>
+          Left
+        </label>
+        <label>
+          <input type={'checkbox'} checked={Side.Right == side} onClick={()=>setSide(Side.Right === side ? Side.Unknown : Side.Right)}/>
+          Right
+        <label>
+          <input type={'checkbox'} checked={Side.Both == side} onClick={()=>setSide(Side.Both === side ? Side.Unknown : Side.Both)}/>
+          Both
+        </label>
+        </label>
+      </form>}
+      {Part.Back === part && <div>Only</div>}
+      <form>
+        <label>
+          <input type={'checkbox'} checked={Part.Back == part} onClick={()=>{
+            setSide(Part.Back === part ? Side.Unknown : Side.Only)
+            setPart(Part.Back === part ? Part.Unknown : Part.Back)
+          }} />
+          Back
+        </label>
+        <label>
+          <input type={'checkbox'} checked={Part.Shoulder == part} onClick={()=>setPart(Part.Shoulder === part ? Part.Unknown : Part.Shoulder)}/>
+          Shoulder
+        </label>
+        <label>
+          <input type={'checkbox'} checked={Part.Knee == part} onClick={()=>setPart(Part.Knee === part ? Part.Unknown : Part.Knee)}/>
+          Knee
+        </label>
+      </form>
       <div className="card">
         <button onClick={() => store()}>
           Track
