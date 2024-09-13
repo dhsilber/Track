@@ -119,59 +119,59 @@ function App() {
         <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-around'}}>
         <h1>Track</h1>
           <form>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Part.Back == part} onClick={()=>{
                 setSide(Part.Back === part ? Side.Unknown : Side.Only)
                 setPart(Part.Back === part ? Part.Unknown : Part.Back)
               }} />
               Back
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Part.Shoulder == part} onClick={()=>setPart(Part.Shoulder === part ? Part.Unknown : Part.Shoulder)}/>
               Shoulder
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Part.Knee == part} onClick={()=>setPart(Part.Knee === part ? Part.Unknown : Part.Knee)}/>
               Knee
             </label>
           </form>
           {Part.Back !== part && <form>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Side.Left == side} onClick={()=>setSide(Side.Left === side ? Side.Unknown : Side.Left)}/>
               Left
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Side.Right == side} onClick={()=>setSide(Side.Right === side ? Side.Unknown : Side.Right)}/>
               Right
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={Side.Both == side} onClick={()=>setSide(Side.Both === side ? Side.Unknown : Side.Both)}/>
               Both
             </label>
           </form>}
           {Part.Back === part && <div>Only</div>}
           <form>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Ache)} onClick={()=>{togglePain(Pain.Ache)}} />
               Ache
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Pain)} onClick={()=>{togglePain(Pain.Pain)}} />
               Pain
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Burning)} onClick={()=>{togglePain(Pain.Burning)}} />
               Burning
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Sharp)} onClick={()=>{togglePain(Pain.Sharp)}} />
               Sharp
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Throbbing)} onClick={()=>{togglePain(Pain.Throbbing)}} />
               Throbbing
             </label>
-            <label style={{padding: '3rem'}}>
+            <label style={{padding: '1rem'}}>
               <input type={'checkbox'} checked={pain.has(Pain.Twitching)} onClick={()=>{togglePain(Pain.Twitching)}} />
               Twitching
             </label>
