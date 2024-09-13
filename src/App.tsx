@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { Row, Slider } from 'rsuite'
+import { Slider } from 'rsuite'
 import useLocalStorageState from 'use-local-storage-state'
 
 const enum Side {
